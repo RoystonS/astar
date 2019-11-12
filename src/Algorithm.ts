@@ -1,16 +1,11 @@
 import { Dictionary } from './Dictionary';
 import { MyNode } from './MyNode';
-import { Maze } from './Maze';
 import { AlgoState, NodeState } from './AlgoState';
 
 export interface AStarInput {
   heuristic_cost_estimate(n1: MyNode, n2: MyNode): number;
   getNeighbours(n: MyNode): MyNode[];
   distanceBetween(n1: MyNode, n2: MyNode): number;
-}
-
-function cmp(a: number, b: number): number {
-  return a < b ? -1 : a === b ? 0 : 1;
 }
 
 function revcmp(a: number, b: number): number {

@@ -1,5 +1,3 @@
-import { MyNode } from './MyNode';
-
 export enum NodeState {
   Current,
   Open,

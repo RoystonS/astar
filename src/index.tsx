@@ -8,9 +8,7 @@ import { AlgoControlComponent } from './AlgoControlComponent';
 
 import { Maze, CellType } from './Maze';
 import { AStar, AStarInput } from './Algorithm';
-import { NodeState } from './AlgoState';
 import { MyNode } from './MyNode';
-import { Dictionary } from './Dictionary';
 
 let MAZE_WIDTH = 30;
 let MAZE_HEIGHT = 20;

@@ -9,8 +9,6 @@ export enum CellType {
 export class Maze {
   private store: Dictionary<CellType> = {};
 
-  constructor() {}
-
   getCellType(row: number, col: number): CellType {
     let ct = this.store[`${row}:${col}`];
     if (ct === undefined) {

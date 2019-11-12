@@ -1,8 +1,4 @@
-import * as React from 'react';
-import * as classnames from 'classnames';
-
-import { Maze } from './Maze';
-import { AlgoState, NodeState } from './AlgoState';
+import React from 'react';
 
 interface ControlProps {
   running: boolean;
