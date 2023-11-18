@@ -1,7 +1,7 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom/client';
 
-import './index.css';
+import './main.css';
 
 import { MazeComponent } from './MazeComponent';
 import { AlgoControlComponent } from './AlgoControlComponent';
@@ -13,7 +13,11 @@ import { MyNode } from './MyNode';
 let MAZE_WIDTH = 30;
 let MAZE_HEIGHT = 20;
 
-let mazeData = new Maze();
+const mazeData = new Maze();
+
+// root definitely exists
+const reactRoot = ReactDOM.createRoot(document.getElementById('root')!);
+
 for (let i = 3; i < 13; i++) {
   mazeData.setCellType(i, 3, CellType.Blocked);
   mazeData.setCellType(i, 6, CellType.Blocked);
@@ -111,26 +115,28 @@ function load() {
   render();
 }
 function render() {
-  ReactDOM.render(
-    <div>
-      <MazeComponent
-        width={MAZE_WIDTH}
-        height={MAZE_HEIGHT}
-        maze={mazeData}
-        algoState={alg}
-        onChangeCell={handleCellClick}
-      />
-      <AlgoControlComponent
-        running={isRunning}
-        onStopStartToggled={toggleRunning}
-      />
-      <button onClick={reset}>Reset</button>
-      <button onClick={save}>Save</button>
-      <button onClick={load}>Load</button>
-    </div>,
-    document.getElementById('root')
+  reactRoot.render(
+    <React.StrictMode>
+      <div>
+        <MazeComponent
+          width={MAZE_WIDTH}
+          height={MAZE_HEIGHT}
+          maze={mazeData}
+          algoState={alg}
+          onChangeCell={handleCellClick}
+        />
+        <AlgoControlComponent
+          running={isRunning}
+          onStopStartToggled={toggleRunning}
+        />
+        <button onClick={reset}>Reset</button>
+        <button onClick={save}>Save</button>
+        <button onClick={load}>Load</button>
+      </div>
+    </React.StrictMode>
   );
 }
+
 
 function step() {
   let stepsToRun = 5;
