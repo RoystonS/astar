@@ -13,9 +13,9 @@ interface MazeProps {
   onChangeCell: (row: number, col: number, cellType: CellType) => void;
 }
 
-export class MazeComponent extends React.Component<MazeProps, {}> {
-  private mouseDown: boolean;
-  private mouseState: CellType;
+export class MazeComponent extends React.Component<MazeProps> {
+  private mouseDown = false;
+  private mouseState: CellType = CellType.Clear;
 
   handleMouseEnter(row: number, col: number) {
     if (this.mouseDown) {
@@ -29,7 +29,7 @@ export class MazeComponent extends React.Component<MazeProps, {}> {
     }
 
     this.mouseDown = true;
-    let ct = this.props.maze.getCellType(row, col);
+    const ct = this.props.maze.getCellType(row, col);
 
     switch (ct) {
       case CellType.Blocked:
@@ -48,22 +48,22 @@ export class MazeComponent extends React.Component<MazeProps, {}> {
     this.props.onChangeCell(row, col, this.mouseState);
   }
 
-  handleMouseUp(row: number, col: number) {
+  handleMouseUp(_row: number, _col: number) {
     this.mouseDown = false;
   }
 
   render() {
-    let { width, height, maze, algoState } = this.props;
+    const { width, height, maze, algoState } = this.props;
 
-    let rows = [];
+    const rows = [];
     for (let r = 0; r < height; r++) {
-      let cells = [];
+      const cells = [];
 
       for (let c = 0; c < width; c++) {
-        let ct = maze.getCellType(r, c);
+        const ct = maze.getCellType(r, c);
 
-        let nodeState = algoState.getState(r, c);
-        let classes = classnames(
+        const nodeState = algoState.getState(r, c);
+        const classes = classnames(
           ct === CellType.Blocked ? 'blocked' : '',
           ct === CellType.Slow ? 'slow' : '',
           nodeState === NodeState.Current ? 'current' : '',
@@ -73,15 +73,15 @@ export class MazeComponent extends React.Component<MazeProps, {}> {
           nodeState === NodeState.OnFinalPath ? 'finalPath' : ''
         );
 
-        let fScore = Math.round(algoState.getFValue(r, c) * 10) / 10;
-        let fScoreText = isNaN(fScore) ? '' : fScore.toString();
-        let gScore = Math.round(algoState.getGValue(r, c) * 10) / 10;
-        let gScoreText = isNaN(gScore) ? '' : gScore.toString();
+        const fScore = Math.round(algoState.getFValue(r, c) * 10) / 10;
+        const fScoreText = isNaN(fScore) ? '' : fScore.toString();
+        const gScore = Math.round(algoState.getGValue(r, c) * 10) / 10;
+        const gScoreText = isNaN(gScore) ? '' : gScore.toString();
 
         cells.push(
           <td
             key={c}
-            onMouseDown={e => this.handleMouseDown(e, r, c)}
+            onMouseDown={(e) => this.handleMouseDown(e, r, c)}
             onMouseUp={() => this.handleMouseUp(r, c)}
             onMouseEnter={() => this.handleMouseEnter(r, c)}
             className={classes}

@@ -13,17 +13,17 @@ function revcmp(a: number, b: number): number {
 }
 
 export class AStar implements AlgoState {
-  private openSet: MyNode[];
-  private openSetIds: Dictionary<boolean>;
+  private openSet: MyNode[] = [];
+  private openSetIds: Dictionary<boolean> = {};
 
-  private closedSetIds: Dictionary<boolean>;
+  private closedSetIds: Dictionary<boolean> = {};
 
-  private cameFrom: Dictionary<MyNode>;
+  private cameFrom: Dictionary<MyNode> = {};
 
-  private gScore: Dictionary<number>;
-  private fScore: Dictionary<number>;
+  private gScore: Dictionary<number> = {};
+  private fScore: Dictionary<number> = {};
 
-  private finalPathIds: Dictionary<boolean>;
+  private finalPathIds: Dictionary<boolean> = {};
   private current?: MyNode;
 
   constructor(
@@ -37,19 +37,19 @@ export class AStar implements AlgoState {
   reset() {
     this.openSet = [this.start];
     this.openSetIds = {
-      [this.start.id]: true
+      [this.start.id]: true,
     };
     this.closedSetIds = {};
 
     this.cameFrom = {};
     this.gScore = {
-      [this.start.id]: 0
+      [this.start.id]: 0,
     };
     this.fScore = {
       [this.start.id]: this.config.heuristic_cost_estimate(
         this.start,
         this.goal
-      )
+      ),
     };
     this.finalPathIds = {};
 
@@ -59,21 +59,21 @@ export class AStar implements AlgoState {
 
   getFValue(row: number, col: number): number {
     // HACK!
-    let id = `${row}:${col}`;
+    const id = `${row}:${col}`;
 
     return this.fScore[id];
   }
 
   getGValue(row: number, col: number): number {
     // HACK!
-    let id = `${row}:${col}`;
+    const id = `${row}:${col}`;
 
     return this.gScore[id];
   }
 
   getState(row: number, col: number): NodeState {
     // HACK!
-    let id = `${row}:${col}`;
+    const id = `${row}:${col}`;
 
     if (id === this.goal.id) {
       return NodeState.Goal;
@@ -106,17 +106,17 @@ export class AStar implements AlgoState {
       return false;
     }
 
-    let {
+    const {
       fScore,
       gScore,
       openSet,
       openSetIds,
       goal,
       cameFrom,
-      closedSetIds
+      closedSetIds,
     } = this;
 
-    let current = openSet.pop() as MyNode;
+    const current = openSet.pop() as MyNode;
     this.current = current;
     delete openSetIds[current.id];
 
@@ -132,10 +132,10 @@ export class AStar implements AlgoState {
 
     closedSetIds[current.id] = true;
 
-    let neighbours = this.config.getNeighbours(current);
-    let newNeighbours = neighbours.filter(n => !closedSetIds[n.id]);
-    newNeighbours.forEach(n => {
-      let tentativeGScore =
+    const neighbours = this.config.getNeighbours(current);
+    const newNeighbours = neighbours.filter((n) => !closedSetIds[n.id]);
+    newNeighbours.forEach((n) => {
+      const tentativeGScore =
         gScore[current.id] + this.config.distanceBetween(current, n);
       if (openSetIds[n.id]) {
         if (tentativeGScore >= gScore[n.id]) {

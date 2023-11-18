@@ -10,8 +10,8 @@ import { Maze, CellType } from './Maze';
 import { AStar, AStarInput } from './Algorithm';
 import { MyNode } from './MyNode';
 
-let MAZE_WIDTH = 30;
-let MAZE_HEIGHT = 20;
+const MAZE_WIDTH = 30;
+const MAZE_HEIGHT = 20;
 
 const mazeData = new Maze();
 
@@ -26,10 +26,6 @@ for (let i = 0; i < 3; i++) {
   mazeData.setCellType(3, i, CellType.Blocked);
 }
 
-interface Info {
-  getGScore(x: number, y: number): number;
-}
-
 class MazeConfig implements AStarInput {
   constructor(private maze: Maze) {}
 
@@ -40,8 +36,8 @@ class MazeConfig implements AStarInput {
 
   distanceBetween(n1: MyNode, n2: MyNode): number {
     let basic = Math.abs(n1.row - n2.row) + Math.abs(n1.col - n2.col);
-    let cellType1 = this.maze.getCellType(n1.row, n1.col);
-    let cellType2 = this.maze.getCellType(n2.row, n2.col);
+    const cellType1 = this.maze.getCellType(n1.row, n1.col);
+    const cellType2 = this.maze.getCellType(n2.row, n2.col);
     if (cellType1 === CellType.Slow) {
       basic += 1;
     }
@@ -54,7 +50,7 @@ class MazeConfig implements AStarInput {
   }
 
   getNeighbours(node: MyNode): MyNode[] {
-    let result = [];
+    const result = [];
 
     if (node.row > 0) {
       result.push(new MyNode(node.row - 1, node.col));
@@ -72,16 +68,16 @@ class MazeConfig implements AStarInput {
       result.push(new MyNode(node.row, node.col + 1));
     }
 
-    let newResult = result.filter(
-      n => this.maze.getCellType(n.row, n.col) !== CellType.Blocked
+    const newResult = result.filter(
+      (n) => this.maze.getCellType(n.row, n.col) !== CellType.Blocked
     );
     return newResult;
   }
 }
 
-let config = new MazeConfig(mazeData);
+const config = new MazeConfig(mazeData);
 
-let alg = new AStar(new MyNode(0, 0), new MyNode(16, 25), config);
+const alg = new AStar(new MyNode(0, 0), new MyNode(16, 25), config);
 
 function handleCellClick(row: number, col: number, newType: CellType) {
   mazeData.setCellType(row, col, newType);
@@ -136,7 +132,6 @@ function render() {
     </React.StrictMode>
   );
 }
-
 
 function step() {
   let stepsToRun = 5;

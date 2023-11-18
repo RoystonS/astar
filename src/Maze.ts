@@ -3,7 +3,7 @@ import { Dictionary } from './Dictionary';
 export enum CellType {
   Clear,
   Blocked,
-  Slow
+  Slow,
 }
 
 export class Maze {
@@ -26,8 +26,8 @@ export class Maze {
   }
 
   load() {
-    this.store = JSON.parse(localStorage.getItem('maze')) as Dictionary<
-      CellType
-    >;
+    this.store = JSON.parse(
+      localStorage.getItem('maze') ?? '{}'
+    ) as Dictionary<CellType>;
   }
 }

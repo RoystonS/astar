@@ -5,9 +5,9 @@ interface ControlProps {
   onStopStartToggled(): void;
 }
 
-export class AlgoControlComponent extends React.Component<ControlProps, {}> {
+export class AlgoControlComponent extends React.Component<ControlProps> {
   render() {
-    let { running, onStopStartToggled } = this.props;
+    const { running, onStopStartToggled } = this.props;
 
     return (
       <div>
