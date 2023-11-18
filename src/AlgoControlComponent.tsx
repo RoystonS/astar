@@ -1,23 +1,15 @@
-import React from 'react';
-
 interface ControlProps {
   running: boolean;
   onStopStartToggled(): void;
 }
 
-export class AlgoControlComponent extends React.Component<ControlProps> {
-  render() {
-    const { running, onStopStartToggled } = this.props;
+export function AlgoControlComponent(props: ControlProps) {
+  const { running, onStopStartToggled } = props;
 
-    return (
-      <div>
-        Running:{' '}
-        <input
-          type="checkbox"
-          checked={running}
-          onChange={onStopStartToggled}
-        />
-      </div>
-    );
-  }
+  return (
+    <div>
+      Running:{' '}
+      <input type="checkbox" checked={running} onChange={onStopStartToggled} />
+    </div>
+  );
 }
