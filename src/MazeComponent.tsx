@@ -3,6 +3,7 @@ import classnames from 'classnames';
 
 import { Maze, CellType } from './Maze';
 import { AlgoState, NodeState } from './AlgoState';
+import { createNodeId } from './MyNode';
 
 interface MazeProps {
   width: number;
@@ -65,7 +66,9 @@ export function MazeComponent(props: MazeProps) {
     for (let c = 0; c < width; c++) {
       const ct = maze.getCellType(r, c);
 
-      const nodeState = algoState.getState(r, c);
+      const id = createNodeId(r, c);
+
+      const nodeState = algoState.getState(id);
       const classes = classnames(
         ct === CellType.Blocked ? 'blocked' : '',
         ct === CellType.Slow ? 'slow' : '',
@@ -76,9 +79,9 @@ export function MazeComponent(props: MazeProps) {
         nodeState === NodeState.OnFinalPath ? 'finalPath' : ''
       );
 
-      const fScore = Math.round(algoState.getFValue(r, c) * 10) / 10;
+      const fScore = Math.round(algoState.getFValue(id) * 10) / 10;
       const fScoreText = isNaN(fScore) ? '' : fScore.toString();
-      const gScore = Math.round(algoState.getGValue(r, c) * 10) / 10;
+      const gScore = Math.round(algoState.getGValue(id) * 10) / 10;
       const gScoreText = isNaN(gScore) ? '' : gScore.toString();
 
       cells.push(

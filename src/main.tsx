@@ -26,15 +26,15 @@ for (let i = 0; i < 3; i++) {
   mazeData.setCellType(3, i, CellType.Blocked);
 }
 
-class MazeConfig implements AStarInput {
+class MazeConfig implements AStarInput<MyNode> {
   constructor(private maze: Maze) {}
 
-  heuristic_cost_estimate(n1: MyNode, n2: MyNode): number {
+  getHeuristicCostEstimate(n1: MyNode, n2: MyNode): number {
     return Math.abs(n1.row - n2.row) + Math.abs(n1.col - n2.col);
     // return Math.sqrt(Math.pow(n1.row - n2.row, 2) + Math.pow(n1.col - n2.col, 2));
   }
 
-  distanceBetween(n1: MyNode, n2: MyNode): number {
+  getActualNeighbourDistance(n1: MyNode, n2: MyNode): number {
     let basic = Math.abs(n1.row - n2.row) + Math.abs(n1.col - n2.col);
     const cellType1 = this.maze.getCellType(n1.row, n1.col);
     const cellType2 = this.maze.getCellType(n2.row, n2.col);

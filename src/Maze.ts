@@ -1,5 +1,3 @@
-import { Dictionary } from './Dictionary';
-
 export enum CellType {
   Clear,
   Blocked,
@@ -7,7 +5,7 @@ export enum CellType {
 }
 
 export class Maze {
-  private store: Dictionary<CellType> = {};
+  private store: Record<string, CellType> = {};
 
   getCellType(row: number, col: number): CellType {
     let ct = this.store[`${row}:${col}`];
@@ -26,8 +24,6 @@ export class Maze {
   }
 
   load() {
-    this.store = JSON.parse(
-      localStorage.getItem('maze') ?? '{}'
-    ) as Dictionary<CellType>;
+    this.store = JSON.parse(localStorage.getItem('maze') ?? '{}');
   }
 }

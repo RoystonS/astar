@@ -4,11 +4,11 @@ export enum NodeState {
   Closed,
   None,
   Goal,
-  OnFinalPath
+  OnFinalPath,
 }
 
 export interface AlgoState {
-  getState(row: number, col: number): NodeState;
-  getFValue(row: number, col: number): number;
-  getGValue(row: number, col: number): number;
+  getState(nodeId: string): NodeState;
+  getFValue(nodeId: string): number;
+  getGValue(nodeId: string): number;
 }

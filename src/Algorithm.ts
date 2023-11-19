@@ -1,35 +1,37 @@
-import { Dictionary } from './Dictionary';
-import { MyNode } from './MyNode';
 import { AlgoState, NodeState } from './AlgoState';
 
-export interface AStarInput {
-  heuristic_cost_estimate(n1: MyNode, n2: MyNode): number;
-  getNeighbours(n: MyNode): MyNode[];
-  distanceBetween(n1: MyNode, n2: MyNode): number;
+export interface AStarNode {
+  id: string;
+}
+
+export interface AStarInput<TNode extends AStarNode> {
+  getHeuristicCostEstimate(n1: TNode, n2: TNode): number;
+  getNeighbours(n: TNode): TNode[];
+  getActualNeighbourDistance(n1: TNode, n2: TNode): number;
 }
 
 function revcmp(a: number, b: number): number {
   return a < b ? 1 : a === b ? 0 : -1;
 }
 
-export class AStar implements AlgoState {
-  private openSet: MyNode[] = [];
-  private openSetIds: Dictionary<boolean> = {};
+export class AStar<TNode extends AStarNode> implements AlgoState {
+  private openSet: TNode[] = [];
+  private openSetIds: Record<string, boolean> = {};
 
-  private closedSetIds: Dictionary<boolean> = {};
+  private closedSetIds: Record<string, boolean> = {};
 
-  private cameFrom: Dictionary<MyNode> = {};
+  private cameFrom: Record<string, TNode> = {};
 
-  private gScore: Dictionary<number> = {};
-  private fScore: Dictionary<number> = {};
+  private gScore: Record<string, number> = {};
+  private fScore: Record<string, number> = {};
 
-  private finalPathIds: Dictionary<boolean> = {};
-  private current?: MyNode;
+  private finalPathIds: Record<string, boolean> = {};
+  private current?: TNode;
 
   constructor(
-    private start: MyNode,
-    private goal: MyNode,
-    private config: AStarInput
+    private start: TNode,
+    private goal: TNode,
+    private config: AStarInput<TNode>
   ) {
     this.reset();
   }
@@ -46,7 +48,7 @@ export class AStar implements AlgoState {
       [this.start.id]: 0,
     };
     this.fScore = {
-      [this.start.id]: this.config.heuristic_cost_estimate(
+      [this.start.id]: this.config.getHeuristicCostEstimate(
         this.start,
         this.goal
       ),
@@ -57,24 +59,15 @@ export class AStar implements AlgoState {
     this.step();
   }
 
-  getFValue(row: number, col: number): number {
-    // HACK!
-    const id = `${row}:${col}`;
-
+  getFValue(id: string): number {
     return this.fScore[id];
   }
 
-  getGValue(row: number, col: number): number {
-    // HACK!
-    const id = `${row}:${col}`;
-
+  getGValue(id: string): number {
     return this.gScore[id];
   }
 
-  getState(row: number, col: number): NodeState {
-    // HACK!
-    const id = `${row}:${col}`;
-
+  getState(id: string): NodeState {
     if (id === this.goal.id) {
       return NodeState.Goal;
     }
@@ -116,14 +109,13 @@ export class AStar implements AlgoState {
       closedSetIds,
     } = this;
 
-    const current = openSet.pop() as MyNode;
+    const current = openSet.pop()!;
     this.current = current;
     delete openSetIds[current.id];
 
     if (current.id === goal.id) {
       let n = goal;
       do {
-        console.log(` ${n.id}: (${n.row}, ${n.col})`);
         this.finalPathIds[n.id] = true;
         n = cameFrom[n.id];
       } while (n);
@@ -136,7 +128,7 @@ export class AStar implements AlgoState {
     const newNeighbours = neighbours.filter((n) => !closedSetIds[n.id]);
     newNeighbours.forEach((n) => {
       const tentativeGScore =
-        gScore[current.id] + this.config.distanceBetween(current, n);
+        gScore[current.id] + this.config.getActualNeighbourDistance(current, n);
       if (openSetIds[n.id]) {
         if (tentativeGScore >= gScore[n.id]) {
           // Worse path
@@ -150,7 +142,7 @@ export class AStar implements AlgoState {
       cameFrom[n.id] = current;
       gScore[n.id] = tentativeGScore;
       fScore[n.id] =
-        gScore[n.id] + this.config.heuristic_cost_estimate(n, goal);
+        gScore[n.id] + this.config.getHeuristicCostEstimate(n, goal);
     });
 
     this.openSet.sort((n1, n2) => revcmp(fScore[n1.id], fScore[n2.id]));
