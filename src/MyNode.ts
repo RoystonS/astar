@@ -3,7 +3,7 @@ import type { AStarNode } from './Algorithm';
 export class MyNode implements AStarNode {
   public id: string;
 
-  constructor(public row: number, public col: number) {
+  public constructor(public row: number, public col: number) {
     this.id = createNodeId(row, col);
   }
 }

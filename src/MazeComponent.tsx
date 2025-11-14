@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
 import classnames from 'classnames';
+import React, { useState } from 'react';
 
-import { Maze, CellType } from './Maze';
-import { AlgoState, NodeState } from './AlgoState';
+import type { AlgoState } from './AlgoState';
+import { NodeState } from './AlgoState';
+import type { Maze } from './Maze';
+import { CellType } from './Maze';
 import { createNodeId } from './MyNode';
 
 interface MazeProps {
@@ -36,12 +38,14 @@ export function MazeComponent(props: MazeProps) {
 
     switch (ct) {
       case CellType.Blocked:
-      case CellType.Slow:
+      case CellType.Slow: {
         newMouseState = CellType.Clear;
         break;
-      case CellType.Clear:
+      }
+      case CellType.Clear: {
         newMouseState = CellType.Blocked;
         break;
+      }
     }
 
     if (event.shiftKey) {
@@ -80,9 +84,9 @@ export function MazeComponent(props: MazeProps) {
       );
 
       const fScore = Math.round(algoState.getFValue(id) * 10) / 10;
-      const fScoreText = isNaN(fScore) ? '' : fScore.toString();
+      const fScoreText = Number.isNaN(fScore) ? '' : fScore.toString();
       const gScore = Math.round(algoState.getGValue(id) * 10) / 10;
-      const gScoreText = isNaN(gScore) ? '' : gScore.toString();
+      const gScoreText = Number.isNaN(gScore) ? '' : gScore.toString();
 
       cells.push(
         <td

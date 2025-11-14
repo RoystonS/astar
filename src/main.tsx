@@ -1,13 +1,13 @@
+import './main.css';
+
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 
-import './main.css';
-
-import { MazeComponent } from './MazeComponent';
 import { AlgoControlComponent } from './AlgoControlComponent';
-
-import { Maze, CellType } from './Maze';
-import { AStar, AStarInput } from './Algorithm';
+import type { AStarInput } from './Algorithm';
+import { AStar } from './Algorithm';
+import { CellType, Maze } from './Maze';
+import { MazeComponent } from './MazeComponent';
 import { MyNode } from './MyNode';
 
 const MAZE_WIDTH = 30;
@@ -16,7 +16,7 @@ const MAZE_HEIGHT = 20;
 const mazeData = new Maze();
 
 // root definitely exists
-const reactRoot = ReactDOM.createRoot(document.getElementById('root')!);
+const reactRoot = ReactDOM.createRoot(document.querySelector('#root')!);
 
 for (let i = 3; i < 13; i++) {
   mazeData.setCellType(i, 3, CellType.Blocked);
@@ -27,14 +27,14 @@ for (let i = 0; i < 3; i++) {
 }
 
 class MazeConfig implements AStarInput<MyNode> {
-  constructor(private maze: Maze) {}
+  public constructor(private maze: Maze) {}
 
-  getHeuristicCostEstimate(n1: MyNode, n2: MyNode): number {
+  public getHeuristicCostEstimate(n1: MyNode, n2: MyNode): number {
     return Math.abs(n1.row - n2.row) + Math.abs(n1.col - n2.col);
     // return Math.sqrt(Math.pow(n1.row - n2.row, 2) + Math.pow(n1.col - n2.col, 2));
   }
 
-  getActualNeighbourDistance(n1: MyNode, n2: MyNode): number {
+  public getActualNeighbourDistance(n1: MyNode, n2: MyNode): number {
     let basic = Math.abs(n1.row - n2.row) + Math.abs(n1.col - n2.col);
     const cellType1 = this.maze.getCellType(n1.row, n1.col);
     const cellType2 = this.maze.getCellType(n2.row, n2.col);
@@ -49,7 +49,7 @@ class MazeConfig implements AStarInput<MyNode> {
     return basic;
   }
 
-  getNeighbours(node: MyNode): MyNode[] {
+  public getNeighbours(node: MyNode): MyNode[] {
     const result = [];
 
     if (node.row > 0) {
@@ -94,7 +94,7 @@ function toggleRunning() {
     clearInterval(intervalHandle);
     intervalHandle = undefined;
   } else {
-    intervalHandle = window.setInterval(step, 1);
+    intervalHandle = globalThis.setInterval(step, 1);
   }
 }
 

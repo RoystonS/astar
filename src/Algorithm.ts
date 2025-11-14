@@ -1,4 +1,5 @@
-import { AlgoState, NodeState } from './AlgoState';
+import type { AlgoState } from './AlgoState';
+import { NodeState } from './AlgoState';
 
 export interface AStarNode {
   id: string;
@@ -28,7 +29,7 @@ export class AStar<TNode extends AStarNode> implements AlgoState {
   private finalPathIds: Record<string, boolean> = {};
   private current?: TNode;
 
-  constructor(
+  public constructor(
     private start: TNode,
     private goal: TNode,
     private config: AStarInput<TNode>
@@ -36,7 +37,7 @@ export class AStar<TNode extends AStarNode> implements AlgoState {
     this.reset();
   }
 
-  reset() {
+  public reset() {
     this.openSet = [this.start];
     this.openSetIds = {
       [this.start.id]: true,
@@ -59,15 +60,15 @@ export class AStar<TNode extends AStarNode> implements AlgoState {
     this.step();
   }
 
-  getFValue(id: string): number {
+  public getFValue(id: string): number {
     return this.fScore[id];
   }
 
-  getGValue(id: string): number {
+  public getGValue(id: string): number {
     return this.gScore[id];
   }
 
-  getState(id: string): NodeState {
+  public getState(id: string): NodeState {
     if (id === this.goal.id) {
       return NodeState.Goal;
     }
@@ -93,7 +94,7 @@ export class AStar<TNode extends AStarNode> implements AlgoState {
 
   public step(): boolean {
     if (
-      !this.openSet.length ||
+      this.openSet.length === 0 ||
       (this.current && this.current.id === this.goal.id)
     ) {
       return false;
@@ -126,13 +127,13 @@ export class AStar<TNode extends AStarNode> implements AlgoState {
 
     const neighbours = this.config.getNeighbours(current);
     const newNeighbours = neighbours.filter((n) => !closedSetIds[n.id]);
-    newNeighbours.forEach((n) => {
+    for (const n of newNeighbours) {
       const tentativeGScore =
         gScore[current.id] + this.config.getActualNeighbourDistance(current, n);
       if (openSetIds[n.id]) {
         if (tentativeGScore >= gScore[n.id]) {
           // Worse path
-          return;
+          continue;
         }
       } else {
         openSet.push(n);
@@ -143,7 +144,7 @@ export class AStar<TNode extends AStarNode> implements AlgoState {
       gScore[n.id] = tentativeGScore;
       fScore[n.id] =
         gScore[n.id] + this.config.getHeuristicCostEstimate(n, goal);
-    });
+    }
 
     this.openSet.sort((n1, n2) => revcmp(fScore[n1.id], fScore[n2.id]));
     return true;

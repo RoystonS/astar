@@ -7,7 +7,7 @@ export enum CellType {
 export class Maze {
   private store: Record<string, CellType> = {};
 
-  getCellType(row: number, col: number): CellType {
+  public getCellType(row: number, col: number): CellType {
     let ct = this.store[`${row}:${col}`];
     if (ct === undefined) {
       ct = CellType.Clear;
@@ -15,15 +15,15 @@ export class Maze {
     return ct;
   }
 
-  setCellType(row: number, col: number, type: CellType) {
+  public setCellType(row: number, col: number, type: CellType) {
     this.store[`${row}:${col}`] = type;
   }
 
-  save() {
+  public save() {
     localStorage.setItem('maze', JSON.stringify(this.store));
   }
 
-  load() {
+  public load() {
     this.store = JSON.parse(localStorage.getItem('maze') ?? '{}');
   }
 }

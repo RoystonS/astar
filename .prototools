@@ -1,0 +1,5 @@
+node = "~24"
+pnpm = "~10.22"
+
+[settings]
+auto-install = true
