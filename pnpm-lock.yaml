@@ -38,7 +38,7 @@ importers:
         version: 2.2.0(@typescript-eslint/parser@8.46.4(eslint@9.39.1(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3))(eslint-import-resolver-typescript@4.4.4)(eslint@9.39.1(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
       '@vitejs/plugin-react':
         specifier: ^5.1.1
-        version: 5.1.1(supports-color@7.2.0)(vite@7.3.5(@types/node@24.10.1))
+        version: 5.1.1(supports-color@7.2.0)(vite@7.3.7(@types/node@24.10.1))
       eslint:
         specifier: ^9.39.1
         version: 9.39.1(supports-color@7.2.0)
@@ -52,8 +52,8 @@ importers:
         specifier: ^0.4.24
         version: 0.4.24(eslint@9.39.1(supports-color@7.2.0))
       vite:
-        specifier: ^7.3.5
-        version: 7.3.5(@types/node@24.10.1)
+        specifier: ^7.3.7
+        version: 7.3.7(@types/node@24.10.1)
 
 packages:
 
@@ -1913,8 +1913,8 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
-  vite@7.3.5:
-    resolution: {integrity: sha512-KuOaNhcnGFN2zIPGA7wRmzF+lJA1sea7rHq17aiJ++9lzY1WWG6Jpwqwe1KNbRVPIqHmr8GLYx7jbrQcN/7/ww==}
+  vite@7.3.7:
+    resolution: {integrity: sha512-AHEzTORMbi7/7aXp7w7KZ5+DCUdSeLsJz0grY8xHpc9DHdYb0vQu6DqJfm2tOw3gDExNgPgnJTXxM6syYFHaCA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -2653,7 +2653,7 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.11.1':
     optional: true
 
-  '@vitejs/plugin-react@5.1.1(supports-color@7.2.0)(vite@7.3.5(@types/node@24.10.1))':
+  '@vitejs/plugin-react@5.1.1(supports-color@7.2.0)(vite@7.3.7(@types/node@24.10.1))':
     dependencies:
       '@babel/core': 7.28.5(supports-color@7.2.0)
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.5(supports-color@7.2.0))
@@ -2661,7 +2661,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.47
       '@types/babel__core': 7.20.5
       react-refresh: 0.18.0
-      vite: 7.3.5(@types/node@24.10.1)
+      vite: 7.3.7(@types/node@24.10.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -4015,7 +4015,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  vite@7.3.5(@types/node@24.10.1):
+  vite@7.3.7(@types/node@24.10.1):
     dependencies:
       esbuild: 0.27.7
       fdir: 6.5.0(picomatch@4.0.4)
